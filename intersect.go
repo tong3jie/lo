@@ -92,8 +92,14 @@ func NoneBy[T any](collection []T, predicate func(item T) bool) bool {
 
 // Intersect returns the intersection between two collections.
 func Intersect[T comparable, Slice ~[]T](list1 Slice, list2 Slice) Slice {
-	result := Slice{}
-	seen := map[T]struct{}{}
+	min := 0
+	if len(list1) > len(list2) {
+	   min = len(list2)
+	} else {
+	   min = len(list1)
+	}
+	result := make(Slice{},0,min)
+	seen := make(map[T]struct{},min)
 
 	for i := range list1 {
 		seen[list1[i]] = struct{}{}
